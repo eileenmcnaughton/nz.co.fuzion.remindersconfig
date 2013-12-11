@@ -9,6 +9,7 @@ return array (
     'html_type' => 'select',
     'pseudoconstant' => array(
       'optionGroupName' => 'from_email_address',
+      'all_domains' => TRUE,
     ),
    // 'default_callback' => '_remindersconfig_civicrm_',
     'add' => '1.0',
