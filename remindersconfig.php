@@ -87,7 +87,24 @@ function remindersconfig_civicrm_alterEntitySettingsFolders(&$folders) {
 }
 
 function remindersconfig_civicrm_alterMailParams(&$params) {
-  echo "<pre>";
-  print_r($params);
-  die;
+  if(CRM_Utils_Array::value('entity', $params) == 'action_schedule') {
+    try {
+      $fromValue = civicrm_api3('entity_setting', 'get', array(
+        'key' => 'nz.co.fuzion.remindersconfig',
+        'name' => 'from_name',
+        'entity_id' => $params['entity_id'],
+        'entity_type' => 'action_schedule',
+      ));
+      if(!empty($fromValue['values']['from_name'])) {
+         $params['from'] = civicrm_api3('option_value', 'getvalue', array(
+          'option_group_name' => 'from_email_address',
+          'value' => $fromValue['values']['from_name'],
+          'return' => 'name',
+        ));
+      }
+    }
+    catch(Exception $e) {
+      echo $e->getMessage();
+    }
+  }
 }
