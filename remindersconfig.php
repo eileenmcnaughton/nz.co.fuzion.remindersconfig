@@ -95,10 +95,10 @@ function remindersconfig_civicrm_alterMailParams(&$params) {
         'entity_id' => $params['entity_id'],
         'entity_type' => 'action_schedule',
       ));
-      if(!empty($fromValue['values']['from_name'])) {
-         $params['from'] = civicrm_api3('option_value', 'getvalue', array(
+      if(!empty($fromValue['values'][$params['entity_id']]['from_name'])) {
+         $params['from'] = $params['replyTo'] = $params['returnPath'] = civicrm_api3('option_value', 'getvalue', array(
           'option_group_name' => 'from_email_address',
-          'value' => $fromValue['values']['from_name'],
+          'value' => $fromValue['values'][$params['entity_id']]['from_name'],
           'return' => 'name',
         ));
       }
